@@ -80,11 +80,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Jiji Tattoo — Studio de tatouage, piercing & skincare" },
+      {
+        name: "description",
+        content: "Studio parisien de tatouage, piercing et soins de la peau.",
+      },
+      { name: "author", content: "Jiji Tattoo" },
+      { property: "og:title", content: "Jiji Tattoo" },
+      {
+        property: "og:description",
+        content: "Studio parisien de tatouage, piercing et soins de la peau.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
