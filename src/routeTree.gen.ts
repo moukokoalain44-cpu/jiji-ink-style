@@ -10,12 +10,30 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AvisRouteImport } from './routes/avis'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as UniversRouteImport } from './routes/univers'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvisRoute = AvisRouteImport.update({
+  id: '/avis',
+  path: '/avis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -31,30 +49,50 @@ const UniversRoute = UniversRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/avis': typeof AvisRoute
+  '/contact': typeof ContactRoute
+  '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/univers': typeof UniversRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/avis': typeof AvisRoute
+  '/contact': typeof ContactRoute
+  '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/univers': typeof UniversRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/avis': typeof AvisRoute
+  '/contact': typeof ContactRoute
+  '/portfolio': typeof PortfolioRoute
   '/services': typeof ServicesRoute
   '/univers': typeof UniversRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/services' | '/univers'
+  fullPaths:
+    '/' | '/avis' | '/contact' | '/portfolio' | '/services' | '/univers'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/services' | '/univers'
-  id: '__root__' | '/' | '/services' | '/univers'
+  to: '/' | '/avis' | '/contact' | '/portfolio' | '/services' | '/univers'
+  id:
+    | '__root__'
+    | '/'
+    | '/avis'
+    | '/contact'
+    | '/portfolio'
+    | '/services'
+    | '/univers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AvisRoute: typeof AvisRoute
+  ContactRoute: typeof ContactRoute
+  PortfolioRoute: typeof PortfolioRoute
   ServicesRoute: typeof ServicesRoute
   UniversRoute: typeof UniversRoute
 }
@@ -66,6 +104,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/avis': {
+      id: '/avis'
+      path: '/avis'
+      fullPath: '/avis'
+      preLoaderRoute: typeof AvisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -87,6 +146,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AvisRoute: AvisRoute,
+  ContactRoute: ContactRoute,
+  PortfolioRoute: PortfolioRoute,
   ServicesRoute: ServicesRoute,
   UniversRoute: UniversRoute,
 }
