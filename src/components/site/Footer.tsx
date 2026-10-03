@@ -23,9 +23,14 @@ export function Footer() {
           <p className="flex items-center gap-3">
             <Mail className="size-4" /> bonjour@jijitattoo.fr
           </p>
-          <p className="flex items-center gap-3">
-            <Instagram className="size-4" /> @jiji.tattoo
-          </p>
+          <a
+            href="https://instagram.com/jijitattoo_66"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 transition-colors hover:text-ink-foreground"
+          >
+            <Instagram className="size-4" /> @jijitattoo_66
+          </a>
         </div>
 
         <div className="space-y-3 text-sm">

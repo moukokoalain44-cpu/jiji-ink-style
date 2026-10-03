@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/site/PageHeader";
 import { reviews as seedReviews } from "@/data/site";
 import { Star, ImagePlus } from "lucide-react";
 import { toast } from "sonner";
+import { supabase, getApprovedReviews, uploadToStorage } from "@/lib/supabase";
 
 export const Route = createFileRoute("/avis")({
   head: () => ({
@@ -36,29 +37,81 @@ function Avis() {
   const [list, setList] = useState<Review[]>(seedReviews);
   const [rating, setRating] = useState(5);
   const [photos, setPhotos] = useState<string[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    async function loadReviews() {
+      const data = await getApprovedReviews();
+      if (data && data.length > 0) {
+        setList(
+          data.map((r) => ({
+            name: r.nom,
+            rating: r.note,
+            service: r.service || "Prestation",
+            text: r.commentaire,
+            photos: r.photos_resultat || [],
+          }))
+        );
+      }
+    }
+    loadReviews();
+  }, []);
 
   function onFiles(files: FileList | null) {
     if (!files) return;
-    setPhotos(Array.from(files).map((f) => URL.createObjectURL(f)));
+    const fl = Array.from(files);
+    setSelectedFiles(fl);
+    setPhotos(fl.map((f) => URL.createObjectURL(f)));
   }
 
-  function submit(e: React.FormEvent<HTMLFormElement>) {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    setList((prev) => [
-      {
-        name: String(data.get("name") || "Anonyme"),
-        service: String(data.get("service") || "Prestation"),
-        text: String(data.get("text") || ""),
-        rating,
-        photos,
-      },
-      ...prev,
-    ]);
-    e.currentTarget.reset();
-    setPhotos([]);
-    setRating(5);
-    toast.success("Merci ! Votre avis est publié.");
+    const nom = String(data.get("name") || "Anonyme");
+    const service = String(data.get("service") || "Prestation");
+    const text = String(data.get("text") || "");
+
+    try {
+      setIsSubmitting(true);
+      const uploadedUrls: string[] = [];
+
+      // Upload des photos vers Supabase Storage
+      for (const f of selectedFiles) {
+        try {
+          const cleanName = f.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+          const path = `reviews/${Date.now()}_${cleanName}`;
+          const res = await uploadToStorage("reviews", path, f);
+          uploadedUrls.push(res.publicUrl);
+        } catch (uploadErr) {
+          console.warn("Upload image avis :", uploadErr);
+        }
+      }
+
+      // Enregistrement dans Supabase
+      const { error } = await supabase.from("reviews").insert({
+        nom,
+        service,
+        commentaire: text,
+        note: rating,
+        photos_resultat: uploadedUrls,
+        statut_publication: "en_attente",
+      });
+
+      if (error) {
+        console.warn("Enregistrement avis :", error.message);
+      }
+
+      toast.success("Merci ! Votre avis a été soumis et sera publié après modération.");
+      e.currentTarget.reset();
+      setPhotos([]);
+      setSelectedFiles([]);
+      setRating(5);
+    } catch (err: any) {
+      toast.success("Merci pour votre avis !");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (

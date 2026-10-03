@@ -33,15 +33,20 @@ function Services() {
       <div className="section-x py-24 md:py-32">
         {services.map((group) => (
           <section key={group.category} className="mb-20 last:mb-0">
-            <div className="flex items-end justify-between border-b border-foreground pb-4">
-              <h2 className="font-display text-4xl md:text-5xl">{group.category}</h2>
-              <Link
-                to="/rendez-vous"
-                className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
-              >
-                Réserver
-              </Link>
-            </div>
+              <div className="flex items-end justify-between border-b border-foreground pb-4">
+                <div>
+                  <h2 className="font-display text-4xl md:text-5xl">{group.category}</h2>
+                  {"note" in group && group.note && (
+                    <p className="mt-2 text-xs italic text-muted-foreground">{group.note}</p>
+                  )}
+                </div>
+                <Link
+                  to="/rendez-vous"
+                  className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+                >
+                  Réserver
+                </Link>
+              </div>
             <ul>
               {group.items.map((item) => (
                 <li

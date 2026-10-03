@@ -10,15 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AvisRouteImport } from './routes/avis'
+import { Route as BoutiqueRouteImport } from './routes/boutique'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DevisRouteImport } from './routes/devis'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as RendezVousRouteImport } from './routes/rendez-vous'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as UniversRouteImport } from './routes/univers'
+import { Route as EspaceDevisTokenRouteImport } from './routes/espace.devis.$token'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AvisRoute = AvisRouteImport.update({
@@ -26,14 +36,29 @@ const AvisRoute = AvisRouteImport.update({
   path: '/avis',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BoutiqueRoute = BoutiqueRouteImport.update({
+  id: '/boutique',
+  path: '/boutique',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevisRoute = DevisRouteImport.update({
+  id: '/devis',
+  path: '/devis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RendezVousRoute = RendezVousRouteImport.update({
+  id: '/rendez-vous',
+  path: '/rendez-vous',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -46,55 +71,106 @@ const UniversRoute = UniversRouteImport.update({
   path: '/univers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EspaceDevisTokenRoute = EspaceDevisTokenRouteImport.update({
+  id: '/espace/devis/$token',
+  path: '/espace/devis/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/avis': typeof AvisRoute
+  '/boutique': typeof BoutiqueRoute
   '/contact': typeof ContactRoute
+  '/devis': typeof DevisRoute
   '/portfolio': typeof PortfolioRoute
+  '/rendez-vous': typeof RendezVousRoute
   '/services': typeof ServicesRoute
   '/univers': typeof UniversRoute
+  '/espace/devis/$token': typeof EspaceDevisTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/avis': typeof AvisRoute
+  '/boutique': typeof BoutiqueRoute
   '/contact': typeof ContactRoute
+  '/devis': typeof DevisRoute
   '/portfolio': typeof PortfolioRoute
+  '/rendez-vous': typeof RendezVousRoute
   '/services': typeof ServicesRoute
   '/univers': typeof UniversRoute
+  '/espace/devis/$token': typeof EspaceDevisTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/avis': typeof AvisRoute
+  '/boutique': typeof BoutiqueRoute
   '/contact': typeof ContactRoute
+  '/devis': typeof DevisRoute
   '/portfolio': typeof PortfolioRoute
+  '/rendez-vous': typeof RendezVousRoute
   '/services': typeof ServicesRoute
   '/univers': typeof UniversRoute
+  '/espace/devis/$token': typeof EspaceDevisTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/avis' | '/contact' | '/portfolio' | '/services' | '/univers'
+    | '/'
+    | '/admin'
+    | '/avis'
+    | '/boutique'
+    | '/contact'
+    | '/devis'
+    | '/portfolio'
+    | '/rendez-vous'
+    | '/services'
+    | '/univers'
+    | '/espace/devis/$token'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/avis' | '/contact' | '/portfolio' | '/services' | '/univers'
+  to:
+    | '/'
+    | '/admin'
+    | '/avis'
+    | '/boutique'
+    | '/contact'
+    | '/devis'
+    | '/portfolio'
+    | '/rendez-vous'
+    | '/services'
+    | '/univers'
+    | '/espace/devis/$token'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/avis'
+    | '/boutique'
     | '/contact'
+    | '/devis'
     | '/portfolio'
+    | '/rendez-vous'
     | '/services'
     | '/univers'
+    | '/espace/devis/$token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   AvisRoute: typeof AvisRoute
+  BoutiqueRoute: typeof BoutiqueRoute
   ContactRoute: typeof ContactRoute
+  DevisRoute: typeof DevisRoute
   PortfolioRoute: typeof PortfolioRoute
+  RendezVousRoute: typeof RendezVousRoute
   ServicesRoute: typeof ServicesRoute
   UniversRoute: typeof UniversRoute
+  EspaceDevisTokenRoute: typeof EspaceDevisTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -106,11 +182,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/avis': {
       id: '/avis'
       path: '/avis'
       fullPath: '/avis'
       preLoaderRoute: typeof AvisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boutique': {
+      id: '/boutique'
+      path: '/boutique'
+      fullPath: '/boutique'
+      preLoaderRoute: typeof BoutiqueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -120,11 +210,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/devis': {
+      id: '/devis'
+      path: '/devis'
+      fullPath: '/devis'
+      preLoaderRoute: typeof DevisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio': {
       id: '/portfolio'
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rendez-vous': {
+      id: '/rendez-vous'
+      path: '/rendez-vous'
+      fullPath: '/rendez-vous'
+      preLoaderRoute: typeof RendezVousRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -141,16 +245,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UniversRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/espace/devis/$token': {
+      id: '/espace/devis/$token'
+      path: '/espace/devis/$token'
+      fullPath: '/espace/devis/$token'
+      preLoaderRoute: typeof EspaceDevisTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   AvisRoute: AvisRoute,
+  BoutiqueRoute: BoutiqueRoute,
   ContactRoute: ContactRoute,
+  DevisRoute: DevisRoute,
   PortfolioRoute: PortfolioRoute,
+  RendezVousRoute: RendezVousRoute,
   ServicesRoute: ServicesRoute,
   UniversRoute: UniversRoute,
+  EspaceDevisTokenRoute: EspaceDevisTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
